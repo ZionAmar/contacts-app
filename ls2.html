@@ -48,7 +48,7 @@
             let txt = "";
             for(obj of data){
                 txt += "<tr>";
-                txt += `<td><button>Delete</button></td>`;
+                txt += `<td><button onclick="deleteContact(${obj.id})">Delete</button></td>`;
                 for(k in obj){
                     txt += `<td>${obj[k]}</td>`;
                 }
@@ -71,6 +71,13 @@
             document.getElementById('email').value = "";
             document.getElementById('phone').value = "";
             localStorage.setItem('nextID',JSON.stringify(id+1))
+        }
+        //Delete
+        function deleteContact(id){
+            contacts = JSON.parse(localStorage.getItem('contacts'))
+            contacts = contacts.filter(o=>o.id != id)
+            localStorage.setItem('contacts',JSON.stringify(contacts))
+            createTable(contacts)
         }
         createTable(contacts)
     </script>
