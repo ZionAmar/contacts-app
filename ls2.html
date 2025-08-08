@@ -7,6 +7,7 @@
 </head>
 <body>
     <div>
+        <input type="hidden" id="id">
         <label for="name">Name</label>
         <input id="name">
         <br>
@@ -16,7 +17,7 @@
         <label for="phone">Phone</label>
         <input id="phone">
         <br>
-        <button onclick="addContact()">Send</button>
+        <button onclick="createOrEdit()">Send</button>
     </div>
     <hr>
     <table border="1">
@@ -52,7 +53,7 @@
                 for(k in obj){
                     txt += `<td>${obj[k]}</td>`;
                 }
-                txt += `<td><button>Edit</button></td>`;
+                txt += `<td><button onclick="contactToEdit(${obj.id})">Edit</button></td>`;
                 txt += "</tr>";
             }
             document.getElementById('myTable').innerHTML = txt;
@@ -78,6 +79,36 @@
             contacts = contacts.filter(o=>o.id != id)
             localStorage.setItem('contacts',JSON.stringify(contacts))
             createTable(contacts)
+        }
+        //Update
+        function contactToEdit(id){
+            contacts = JSON.parse(localStorage.getItem('contacts'))
+            let obj = contacts.find(o=>o.id == id)
+            document.getElementById('id').value = obj.id;
+            document.getElementById('name').value = obj.name;
+            document.getElementById('email').value = obj.email;
+            document.getElementById('phone').value = obj.phone;
+        }
+        function editContact(){
+            let id = document.getElementById('id').value;
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let phone = document.getElementById('phone').value;
+            let obj = contacts.find(o=>o.id == id)
+            obj.name = name;
+            obj.email = email;
+            obj.phone = phone;
+            localStorage.setItem('contacts',JSON.stringify(contacts))
+            createTable(contacts)
+        }
+        //selector
+        function createOrEdit(){
+            let id = document.getElementById('id').value;
+            if(id){
+                editContact()
+            }else{
+                addContact()
+            }
         }
         createTable(contacts)
     </script>
