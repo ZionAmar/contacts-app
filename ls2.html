@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Delete</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody id="myTable"></tbody>
+    </table>
+    <script>
+        localStorage.setItem('contacts',JSON.stringify([{id:1,name:"zion",email:"z@z",phone:"050"}]))
+
+        let contacts = JSON.parse(localStorage.getItem('contacts'))
+
+        //Read
+        function createTable(data){
+            let txt = "";
+            for(obj of data){
+                txt += "<tr>";
+                txt += `<td><button>Delete</button></td>`;
+                for(k in obj){
+                    txt += `<td>${obj[k]}</td>`;
+                }
+                txt += `<td><button>Edit</button></td>`;
+                txt += "</tr>";
+            }
+            document.getElementById('myTable').innerHTML = txt;
+        }
+        createTable(contacts)
+    </script>
+</body>
+</html>
