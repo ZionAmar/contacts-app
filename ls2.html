@@ -6,6 +6,19 @@
     <title>Document</title>
 </head>
 <body>
+    <div>
+        <label for="name">Name</label>
+        <input id="name">
+        <br>
+        <label for="email">Email</label>
+        <input id="email">
+        <br>
+        <label for="phone">Phone</label>
+        <input id="phone">
+        <br>
+        <button onclick="addContact()">Send</button>
+    </div>
+    <hr>
     <table border="1">
         <thead>
             <tr>
@@ -20,9 +33,15 @@
         <tbody id="myTable"></tbody>
     </table>
     <script>
-        localStorage.setItem('contacts',JSON.stringify([{id:1,name:"zion",email:"z@z",phone:"050"}]))
-
+        //Data
         let contacts = JSON.parse(localStorage.getItem('contacts'))
+        if(contacts == null){
+            localStorage.setItem('contacts',JSON.stringify([]))
+        }
+        if(contacts.length == 0){
+            localStorage.setItem('nextID',JSON.stringify(1))
+        }
+
 
         //Read
         function createTable(data){
@@ -37,6 +56,21 @@
                 txt += "</tr>";
             }
             document.getElementById('myTable').innerHTML = txt;
+        }
+        //Create
+        function addContact(){
+            let id = JSON.parse(localStorage.getItem('nextID'));
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let phone = document.getElementById('phone').value;
+            let obj = {id,name,email,phone};
+            contacts.push(obj);
+            localStorage.setItem('contacts',JSON.stringify(contacts))
+            createTable(contacts);
+            document.getElementById('name').value = "";
+            document.getElementById('email').value = "";
+            document.getElementById('phone').value = "";
+            localStorage.setItem('nextID',JSON.stringify(id+1))
         }
         createTable(contacts)
     </script>
