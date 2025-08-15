@@ -20,6 +20,7 @@
         <button onclick="createOrEdit()">Send</button>
     </div>
     <hr>
+    <input id="s" oninput="sortTable()" placeholder="מיון לפי שם">
     <table border="1">
         <thead>
             <tr>
@@ -108,6 +109,18 @@
                 editContact()
             }else{
                 addContact()
+            }
+        }
+        //Sort
+        function sortTable(){
+            let val = document.getElementById('s').value;
+            if(val){
+                // let newArr = contacts.filter(obj=>obj.name.startsWith(val))
+                // let newArr = contacts.filter(obj=>obj.name.includes(val))
+                let newArr = contacts.filter(obj=>obj.name.toLowerCase().includes(val))
+                createTable(newArr)
+            }else{
+                createTable(contacts)
             }
         }
         createTable(contacts)
